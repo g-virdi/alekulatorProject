@@ -1,0 +1,233 @@
+/* This is to predefine zones in the grid to make swapping buttons around easier.*/
+.white {
+  color: white;
+  font-size: 20px;
+  background-color: #2196f3;
+}
+
+.gray {
+  background-color: gray;
+  color: white;
+  font-size: 20px;
+}
+
+.green {
+  background-color: #4caf50;
+  color: white;
+  font-size: 20px;
+}
+
+.blue {
+  background-color: #2196f3;
+  color: white;
+  font-size: 20px;
+}
+
+.zero{
+  grid-area: zero;
+}
+
+.one{
+  grid-area: one;
+}
+
+.two{
+    grid-area: two;
+}
+
+.three {
+    grid-area: three;
+}
+
+.four {
+  grid-area: four;
+}
+
+.five{
+  grid-area: five;
+}
+
+.six{
+  grid-area: six;
+}
+
+.seven {
+  grid-area: seven;
+}
+
+.eight {
+  grid-area: eight;
+}
+
+.nine {
+  grid-area: nine;
+}
+
+.ce {
+  grid-area: ce;
+}
+.clear {
+  grid-area: clear;
+}
+
+.openbracket {
+  grid-area: openbracket;
+}
+
+.closebracket {
+  grid-area: closebracket;
+}
+
+.divide {
+  grid-area: divide;
+}
+.plus {
+  grid-area: plus;
+}
+
+.komma {
+  grid-area: komma;
+}
+
+.equal {
+  grid-area: equal;
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}
+
+.C {
+  grid-area: C;
+}
+
+.D {
+  grid-area: D;
+}
+
+.E {
+  grid-area: E;
+}
+
+.F {
+  grid-area: F;
+}
+
+.multiply {
+  grid-area: multiply;
+}
+
+.minus {
+  grid-area: minus;
+}
+
+.twentynine {
+  grid-area: twentynine;
+}
+
+.thirty {
+  grid-area: thirty;
+}
+.empty{
+  grid-area: empty;
+}
+
+.copy {
+  grid-area: copy;
+}
+
+.fill-copy{
+  height: 100%;
+  width: 100%;
+}
+
+  .span2{
+    grid-column: 3 / -1;
+  }
+
+  /*Makes the button invisible and removes it completely (not rendered and a fixed position on top left of the current html element*/
+  .invis{
+    visibility: hidden;
+    position: fixed;
+  }
+  .round {
+    border-radius: 50%;
+  }
+
+  /*The grid in which everything else is placed*/
+  .calculator-grid {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 56px 120px 10vh auto 50px;
+    height: 100vh;
+    grid-gap: 5px;
+    background-color: white;
+  }
+
+  .input-grid{
+
+  }
+
+  /*The grid for the decimal mode*/
+  .decimal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    height: 100%;
+
+    grid-template-areas: "ce clear openbracket closebracket"
+                          "seven eight nine  divide"
+                          "four five six multiply"
+                          "one two three minus"
+                          "zero komma plus equal"
+
+  }
+/*The grid for the hexadecimal mode*/
+  .hexadecimal-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: 100%;
+    grid-template-areas: "clear ce openbracket closebracket"
+                         "seven eight nine divide"
+                         "four five six multiply"
+                         "one two three minus"
+                         "zero equal equal plus"
+                         "A B C D"
+                         "E E F F"
+  }
+
+  /*The grid for the binary mode*/
+  .binary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    height: 100%;
+    grid-template-areas:
+    "ce clear openbracket closebracket"
+    "zero zero one one"
+    "divide multiply minus plus"
+    "equal equal equal equal"
+  }
+
+#input{
+  text-align: right;
+  font-size: auto;
+  background-color: whitesmoke;
+  color: black;
+  height: 130px;
+  overflow-y:hidden;
+}
+
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+}
+
+.horizontal-align {
+  overflow: scroll;
+  white-space: nowrap;
+}

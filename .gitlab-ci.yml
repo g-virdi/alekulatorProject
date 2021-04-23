@@ -1,0 +1,79 @@
+image: node:latest
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+stages:
+  - test
+  - dependencies
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+Dependencies:
+  stage: dependencies
+  script:
+    - npm install
+
+testing:
+  stage: test
+  script:
+    - npm install -g --save-dev jest
+    - cd www
+    - npm test
+
+#Build_Electron:
+#  only:
+#    - master
+#  stage: build
+#  artifacts:
+#    paths:
+#      - Alekulator-win32-x64/
+#  script:
+#    - npm install -g electron-packager
+#    - electron-packager . --overwrite --asar --platform=win32
+
+Build_Android:
+  image: beevelop/cordova:latest
+  only:
+    - master
+  stage: build
+  artifacts:
+    paths:
+    - AndroidAPK/release/
+  script:
+    - cordova create AndroidAPK
+    - cd AndroidAPK
+    - cordova platform add android
+    - rm -rf www/
+    - mkdir www
+    - cd ..
+    - /bin/cp -r www/ AndroidAPK/
+    - cd AndroidAPK
+    - cordova build android --release
+    - mkdir release
+    - cd ..
+    - cp -r AndroidAPK/platforms/android/app/build/outputs/apk/release/ AndroidAPK/
+    - cp keytest.keystore AndroidAPK/release/
+    - cd AndroidAPK/release/
+    - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keytest.keystore -storepass 123456 app-release-unsigned.apk -signedjar app-release.apk Marc
+
+Deploy_Website:
+  only:
+    - master
+  stage: deploy
+  script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan 138.68.70.61 >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - rm -rf node_modules/
+  - cd ..
+  - scp -rp Alekulator/ root@138.68.70.61:/root/
+  - ssh 138.68.70.61 -p 22 -l root -t "cd Alekulator && npm install"
